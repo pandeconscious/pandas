@@ -208,10 +208,14 @@ class CParserWrapper(ParserBase):
         Sequence[Hashable] | MultiIndex,
         Mapping[Hashable, AnyArrayLike],
     ]:
+        import pdb;pdb.set_trace()
         index: Index | MultiIndex | None
         column_names: Sequence[Hashable] | MultiIndex
         try:
             if self.low_memory:
+                # this is where float is being reaad but it seems it is going to C code ?
+                # -> chunks = self._reader.read_low_memory(nrows) 
+                # > <frozen codecs>(331)getstate()
                 chunks = self._reader.read_low_memory(nrows)
                 # destructive to chunks
                 data = _concatenate_chunks(chunks, self.names)
